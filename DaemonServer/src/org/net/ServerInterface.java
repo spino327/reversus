@@ -27,12 +27,21 @@ public class ServerInterface {
 	    {
 	        response.setContentType("text/html");
 	        response.setStatus(HttpServletResponse.SC_OK);
-	        response.getWriter().println("<h1>"+"Hello"+"</h1>");
+	        response.getWriter().println("<h1>"+"CPEG657"+"</h1>");
 	        response.getWriter().println("session=" + request.getSession(true).getId());
-	        Enumeration en = request.getParameterNames();
+//	        Enumeration en = request.getParameterNames();
+	        
+	        Enumeration en = request.getHeaderNames();
+	        response.setHeader("Result", "false");
 	        
 	        while(en.hasMoreElements()){
-	        	response.getWriter().println("<br> " + en.nextElement());
+	        	String parameter = (String) en.nextElement();
+	        	response.getWriter().println("</br> " + parameter);
+//	        	response.getWriter().println(request.getParameter(parameter));
+//	        	System.out.println("<server>" +parameter + ":" + request.getParameter(parameter));
+	        	
+	        	response.getWriter().println(request.getHeader(parameter));
+	        	System.out.println("<server>" +parameter + ":" + request.getHeader(parameter));
 	        }
 	        
 	    }
