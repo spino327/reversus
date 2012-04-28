@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.agatha.db.ConnectTo;
+import org.irtech.DataObserver;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,7 +26,28 @@ public class Test_ServerInterface {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		
-		ServerInterface server = new ServerInterface(8080);
+		server = new ServerInterface(8080);
+		
+		
+		// registering Information Retrieval Observers
+		server.attach(new DataObserver() {
+			
+			@Override
+			public void computeIRTech(Map<String, String> data, ConnectTo conn) {
+				
+				System.out.println("Processing IR technique 1");
+				
+				for (Map.Entry<String, String> entry : data.entrySet()) {
+					System.out.println(entry);
+				}
+				
+				System.out.println(conn);
+				
+				System.out.println("EO Processing IR technique 1");
+			}
+		});
+		
+		
 		server.start();
 //		server.join();
 	}
@@ -51,7 +74,7 @@ public class Test_ServerInterface {
 		
 		connection.setRequestProperty("lat", Float.toString((float) 39.6837226));
 		connection.setRequestProperty("lon", Float.toString((float) -75.7496572));
-		connection.setRequestProperty("user", Integer.toString(10));
+		connection.setRequestProperty("user", Integer.toString(0));
 		connection.setRequestProperty("ts", (new Date()).toString());
 		
 		connection.connect();
