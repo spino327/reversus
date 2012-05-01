@@ -23,13 +23,9 @@ public class Server {
 		
 	    if (result.getMeta().getCode() == 200) {
 	        // if query was ok we can finally we do something with the data
-	    	//For every venue in the Result
 	        for (CompactVenue venue : result.getResult().getVenues()) {
-	        //Get the Venue categories
 	          for (Category cat : venue.getCategories()){
-	        	  //Get the Parent Categories and iterate through them
 	        	  for (String par : cat.getParents())
-	        		  //See if it is part of the food category and print if it is.
 	        		  if (par.equals("Food"))
 	        			  System.out.println(venue.getName());
 	          }
