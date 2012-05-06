@@ -81,7 +81,7 @@ public class ServerInterface implements DataSubject {
 	        // Connecting to the database
 	        ConnectTo conn = new ConnectTo("com.mysql.jdbc.Driver");
 	        String user = data.get("user");
-	        if (conn.getConnection("jdbc:mysql://localhost:3306/CPEG657", "root", "root") &&
+	        if (conn.getConnection("jdbc:mysql://localhost:8889/CPEG657", "root", "root") &&
 	        		checkSt) {
 	        	
 	        	// Checking the user
