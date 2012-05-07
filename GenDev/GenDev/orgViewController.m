@@ -1,24 +1,44 @@
 //
-//  WhereamiViewController.m
-//  Whereami
+//  orgViewController.m
+//  GenDev
 //
-//  Created by joeconway on 7/31/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Created by Sergio Antonio Pino Gallardo on 5/6/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "WhereamiViewController.h"
+#import "orgViewController.h"
 #import "MapPoint.h"
 
+NSString * const MapTypePrefKey = @"MapTypePrefKey";
 
-NSString * const WhereamiMapTypePrefKey = @"WhereamiMapTypePrefKey";
+@interface orgViewController ()
 
-@implementation WhereamiViewController
+@end
+
+@implementation orgViewController
+
+- (void)viewDidLoad
+{
+    [worldView setShowsUserLocation:YES];
+    
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
 
 + (void)initialize
 {
     NSDictionary *defaults = [NSDictionary 
-                            dictionaryWithObject:[NSNumber numberWithInt:1]
-                                          forKey:WhereamiMapTypePrefKey];
+                              dictionaryWithObject:[NSNumber numberWithInt:1]
+                              forKey:MapTypePrefKey];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }
 
@@ -32,11 +52,7 @@ NSString * const WhereamiMapTypePrefKey = @"WhereamiMapTypePrefKey";
     }
     return self;
 }
-- (void)viewDidLoad
-{
-    [worldView setShowsUserLocation:YES];
-    
-}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)tf
 {
     // This method isn't implemented yet - but will be soon.
@@ -62,7 +78,7 @@ NSString * const WhereamiMapTypePrefKey = @"WhereamiMapTypePrefKey";
                                                   title:[locationTitleField text]];
     // Add it to the map view 
     [worldView addAnnotation:mp];
-        
+    
     // Zoom the region to this location
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coord, 250, 250);
     [worldView setRegion:region animated:YES];
@@ -111,7 +127,7 @@ NSString * const WhereamiMapTypePrefKey = @"WhereamiMapTypePrefKey";
     
     // create a request object with that URL
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    //[request ];
+    
     
     NSLog(@"HI");
 }
@@ -121,4 +137,5 @@ NSString * const WhereamiMapTypePrefKey = @"WhereamiMapTypePrefKey";
     // Tell the location manager to stop sending us messages
     [locationManager setDelegate:nil];
 }
+
 @end

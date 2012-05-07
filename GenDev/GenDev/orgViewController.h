@@ -1,16 +1,16 @@
 //
-//  WhereamiViewController.h
-//  Whereami
+//  orgViewController.h
+//  GenDev
 //
-//  Created by joeconway on 7/31/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Created by Sergio Antonio Pino Gallardo on 5/6/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
-@interface WhereamiViewController : UIViewController
+@interface orgViewController : UIViewController
     <CLLocationManagerDelegate, MKMapViewDelegate, UITextFieldDelegate>
 {
     CLLocationManager *locationManager;
