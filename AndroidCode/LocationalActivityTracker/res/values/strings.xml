@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Locational Activity Tracker</string>
+    
+    <string name="main_menu">Main Menu Screen</string>
+    <string name="main_menu_title">Main Menu</string>
+    
+    <string name="check_in">Check In Screen</string>
+    <string name="check_in_title">Check In</string>
+    
+    <string name="history">History Screen</string>
+    <string name="history_title">History</string>
+    
+    <string name="my_alerts">My Alerts Screen</string>
+    <string name="my_alerts_title">My Alerts</string>
+    
+    <string name="statistics">Statistics Screen</string>
+    <string name="statistics_title">Statistics</string>
+    
+    <string name="settings">Settings Screen</string>
+    <string name="settings_title">Settings</string>
+    
+    <string name="login">Log in to your Account</string>
+    <string name="login_title">LAT Login</string>
+    
+    <string name="lblUser">Username</string>
+    <string name="lblPassword">Password</string>
+    <string name="btnLogin">Login</string>
+    <string name="btnRegister">Register</string>
+    <string name="lblFullName">Full Name</string>
+
+</resources>
