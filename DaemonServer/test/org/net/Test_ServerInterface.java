@@ -69,13 +69,14 @@ public class Test_ServerInterface {
 	@Test
 	public void testConnection() throws IOException {
 		
-		URL url = new URL("http://localhost:8080/gateway");
+		long ts = new Date().getTime();
+		URL url = new URL("http://localhost:8080/gateway?lat=39.683366&lon=-75.7476&user=1&ts="+ts);
 		URLConnection connection = url.openConnection();
 		
-		connection.setRequestProperty("lat", Float.toString((float) 39.6837226));
-		connection.setRequestProperty("lon", Float.toString((float) -75.7496572));
-		connection.setRequestProperty("user", Integer.toString(0));
-		connection.setRequestProperty("ts", (new Date()).toString());
+//		connection.setRequestProperty("lat", Float.toString((float) 39.6837226));
+//		connection.setRequestProperty("lon", Float.toString((float) -75.7496572));
+//		connection.setRequestProperty("user", Integer.toString(0));
+//		connection.setRequestProperty("ts", (new Date()).toString());
 		
 		connection.connect();
 		
