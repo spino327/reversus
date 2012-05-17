@@ -1,3 +1,15 @@
+/**
+ * Copyright (c) 2012, University of Delaware
+ * All rights reserved.
+ *
+ * @author: Sergio Pino
+ * @author: Keith Elliott
+ * Website: http://www.eecis.udel.edu/~pinogal, http://www.eecis.udel.edu/~kelliott
+ * emails  : sergiop@udel.edu - kelliott@udel.edu
+ * Date   : May, 2012
+ *
+ */
+
 package org.app;
 
 import java.io.IOException;
@@ -11,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.irtech.Categorization;
 import org.net.ServerInterface;
 
 public class Test {
@@ -20,48 +33,13 @@ public class Test {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-
-//		Server server = new Server(8082);
-//		 
-//        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-//        context.setContextPath("/");
-//        server.setHandler(context);
-// 
-//        context.addServlet(new ServletHolder(new HelloServlet()),"/test");
-        
-//        context.addServlet(new ServletHolder(new HelloServlet()),"/*");
-//        context.addServlet(new ServletHolder(new HelloServlet("Buongiorno Mondo")),"/it/*");
-//        context.addServlet(new ServletHolder(new HelloServlet("Bonjour le Monde")),"/fr/*");
- 
-//        server.start();
-//        server.join();
 		
 		ServerInterface server = new ServerInterface(8080);
+		
+		server.attach(new Categorization());
+		
 		server.start();
 		server.join();
 	}
 
 }
-
-//class HelloServlet extends HttpServlet
-//{
-//    private String greeting="Hello World";
-//    public HelloServlet(){}
-//    public HelloServlet(String greeting)
-//    {
-//        this.greeting=greeting;
-//    }
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-//    {
-//        response.setContentType("text/html");
-//        response.setStatus(HttpServletResponse.SC_OK);
-//        response.getWriter().println("<h1>"+greeting+"</h1>");
-//        response.getWriter().println("session=" + request.getSession(true).getId());
-//        Enumeration en = request.getParameterNames();
-//        
-//        while(en.hasMoreElements()){
-//        	response.getWriter().println(en.nextElement());
-//        }
-//        
-//    }
-//}

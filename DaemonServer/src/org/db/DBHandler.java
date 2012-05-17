@@ -1,3 +1,15 @@
+/**
+ * Copyright (c) 2012, University of Delaware
+ * All rights reserved.
+ *
+ * @author: Sergio Pino
+ * @author: Keith Elliott
+ * Website: http://www.eecis.udel.edu/~pinogal, http://www.eecis.udel.edu/~kelliott
+ * emails  : sergiop@udel.edu - kelliott@udel.edu
+ * Date   : May, 2012
+ *
+ */
+
 package org.db;
 
 
@@ -6,6 +18,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -229,17 +242,25 @@ public class DBHandler {
         }
 	}
 	
-	public void addPlace(String name, float longitude, float latitude){
+	/**
+	 * 
+	 * @param name
+	 * @param longitude
+	 * @param latitude
+	 * @param fsID
+	 */
+	public void addPlace(String name, float longitude, float latitude, String fsID){
         Connection con = null;
         PreparedStatement pst = null;
 
         try {
             con = DriverManager.getConnection(dbURL, dbUser, dbPassword);
 
-            pst = con.prepareStatement("INSERT INTO PLACE(NAME, LONGITUDE, LATITUDE) VALUES(?,?,?)");
+            pst = con.prepareStatement("INSERT INTO PLACE(NAME, LONGITUDE, LATITUDE, fsID) VALUES(?,?,?,?)");
             pst.setString(1, name);
             pst.setFloat(2, longitude);
             pst.setFloat(3, latitude);
+            pst.setString(4, fsID);
             pst.executeUpdate();
 
         } catch (SQLException ex) {
@@ -295,16 +316,22 @@ public class DBHandler {
         }
 	}
 	
-	public void addPlaceCategory(){
+	public boolean addPlaceCategory(int placeID, String cat){
         Connection con = null;
         PreparedStatement pst = null;
 
         try {
             con = DriverManager.getConnection(dbURL, dbUser, dbPassword);
 
-            pst = con.prepareStatement("INSERT INTO Users(name) VALUES(?)");
-            //pst.setString(1, newUser);
-            pst.executeUpdate();
+            pst = con.prepareStatement("INSERT INTO Place_Category (placeID, catID) " +
+            		"VALUES (?, (SELECT ID FROM Category WHERE name = ?))");
+            
+            pst.setInt(1, placeID);
+            pst.setString(2, cat);
+            
+            if (pst.executeUpdate()>=1) {
+            	return true;
+            }
 
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(DBHandler.class.getName());
@@ -325,6 +352,7 @@ public class DBHandler {
                 lgr.log(Level.SEVERE, ex.getMessage(), ex);
             }
         }
+        return false;
 	}
 
 	public boolean isValidUser(String user){
@@ -402,11 +430,64 @@ public class DBHandler {
 	}
 	
 	/**
+	 * Check if the place has a 
+	 * 
+	 * @param placeID
+	 * @return
+	 */
+	public boolean hasCategory(int placeID) {
+		
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		 
+        try {
+            if (conn != null){
+            	pst = conn.prepareStatement("SELECT COUNT(*) FROM  Place_Category WHERE placeID = ?");
+            	pst.setInt(1, placeID);
+            	rs = pst.executeQuery();
+            	
+            	System.out.println("Checking if place[" + placeID + "] has a category");
+            	
+            	if (rs.first()) {
+            		
+            		if (rs.getInt(1)>0) {
+            			return true;
+            		} else {
+            			System.out.println("get count = 0");
+            		}
+            	} 
+            }
+
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(DBHandler.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+            System.out.println("Server Connection Error");
+
+        } finally {
+
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                /*
+                if (conn != null) {
+                    conn.close();
+                }*/
+            } catch (SQLException ex) {
+                Logger lgr = Logger.getLogger(DBHandler.class.getName());
+                lgr.log(Level.SEVERE, ex.getMessage(), ex);
+            }
+        }
+        return false;
+	}
+	
+	/**
 	 * return the place ID
 	 * @param placeName
+	 * @param fsID foursquare Place ID
 	 * @return placeId
 	 */
-	public int getPlaceId(String placeName, float latitude, float longitude) {
+	public int getPlaceId(String placeName, float latitude, float longitude, String fsID) {
 		
 		// to lower case
 		placeName = placeName.toLowerCase();
@@ -431,7 +512,7 @@ public class DBHandler {
             	} else {
             		
             		// we create a record for this place an return the id
-            		this.addPlace(placeName, longitude, latitude);
+            		this.addPlace(placeName, longitude, latitude, fsID);
             		
 //            		pst = conn.prepareStatement("SELECT ID FROM PLACE WHERE NAME = ?");
 //                	pst.setString(1, placeName);
@@ -465,6 +546,158 @@ public class DBHandler {
             }
         }
         return -1;
+	}
+	
+	/**
+	 * return the [Place Name, Date, Category]
+	 * @param placeName
+	 * @param fsID foursquare Place ID
+	 * @return return an arraylist with the 3 values
+	 */
+	public ArrayList<String[]> getHaveBeenTable(String userID) {
+		
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		ArrayList<String[]> result = null;
+        try {
+            if (conn != null){
+            	pst = conn.prepareStatement("SELECT PLACE.NAME,LOCATIONDATA.tsTime,CATEGORY.NAME " +
+            			"FROM PLACE,LOCATIONDATA,CATEGORY,PLACE_CATEGORY " +
+            			"WHERE LOCATIONDATA.userID = ? AND " +
+            			"LOCATIONDATA.Placeid = PLACE.ID AND " +
+            			"LOCATIONDATA.Placeid = PLACE_CATEGORY.PLACEID AND " +
+            			"PLACE_CATEGORY.CATID = CATEGORY.ID");
+            	
+            	pst.setString(1, userID);
+            	
+            	rs = pst.executeQuery();
+            	
+            	if(rs.first()) {
+            		// there is a record for the place name
+            		result = new ArrayList<String[]>();
+            		
+            		while(!rs.isAfterLast()) {
+            			result.add(new String[] {rs.getString(1), rs.getString(2), rs.getString(3)});
+            			rs.next();
+            		}
+            	}
+            }
+
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(DBHandler.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+            System.out.println("Server Connection Error");
+
+        } finally {
+
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                /*if (conn != null) {
+                    conn.close();
+                }*/
+            } catch (SQLException ex) {
+                Logger lgr = Logger.getLogger(DBHandler.class.getName());
+                lgr.log(Level.SEVERE, ex.getMessage(), ex);
+            }
+        }
+        
+        return result;
+	}
+	
+	/**
+	 * return the place Foursquare ID
+	 * @return fsID
+	 */
+	public String getPlaceFSID(int placeID) {
+		
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		 
+        try {
+            if (conn != null){
+            	pst = conn.prepareStatement("SELECT fsID FROM PLACE WHERE ID = ?");
+            	
+            	pst.setInt(1, placeID);
+            	
+            	rs = pst.executeQuery();
+            	
+            	if(rs.first()) {
+            		// there is a record for the place name
+            		return rs.getString(1);
+            		
+            	}
+            }
+
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(DBHandler.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+            System.out.println("Server Connection Error");
+
+        } finally {
+
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                /*if (conn != null) {
+                    conn.close();
+                }*/
+            } catch (SQLException ex) {
+                Logger lgr = Logger.getLogger(DBHandler.class.getName());
+                lgr.log(Level.SEVERE, ex.getMessage(), ex);
+            }
+        }
+        
+        return null;
+	}
+	
+	/**
+	 * return the place name
+	 * @return fsID
+	 */
+	public String getPlaceName(int placeID) {
+		
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		 
+        try {
+            if (conn != null){
+            	pst = conn.prepareStatement("SELECT NAME FROM PLACE WHERE ID = ?");
+            	
+            	pst.setInt(1, placeID);
+            	
+            	rs = pst.executeQuery();
+            	
+            	if(rs.first()) {
+            		// there is a record for the place name
+            		return rs.getString(1);
+            		
+            	}
+            }
+
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(DBHandler.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+            System.out.println("Server Connection Error");
+
+        } finally {
+
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                /*if (conn != null) {
+                    conn.close();
+                }*/
+            } catch (SQLException ex) {
+                Logger lgr = Logger.getLogger(DBHandler.class.getName());
+                lgr.log(Level.SEVERE, ex.getMessage(), ex);
+            }
+        }
+        
+        return null;
 	}
 	
 	/**

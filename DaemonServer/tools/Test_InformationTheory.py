@@ -1,7 +1,15 @@
 '''
-Created on Mar 17, 2012
-
-@author: sergio
+/**
+ * Copyright (c) 2012, University of Delaware
+ * All rights reserved.
+ *
+ * @author: Sergio Pino
+ * @author: Keith Elliott
+ * Website: http://www.eecis.udel.edu/~pinogal, http://www.eecis.udel.edu/~kelliott
+ * emails  : sergiop@udel.edu - kelliott@udel.edu
+ * Date   : May, 2012
+ *
+ */
 '''
 import unittest
 from tools.InformationTheory import InformationTheory

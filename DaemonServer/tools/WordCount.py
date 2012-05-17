@@ -1,9 +1,16 @@
 '''
-Created on Mar 16, 2012
-
-@author: Sergio Pino
+/**
+ * Copyright (c) 2012, University of Delaware
+ * All rights reserved.
+ *
+ * @author: Sergio Pino
+ * @author: Keith Elliott
+ * Website: http://www.eecis.udel.edu/~pinogal, http://www.eecis.udel.edu/~kelliott
+ * emails  : sergiop@udel.edu - kelliott@udel.edu
+ * Date   : May, 2012
+ *
+ */
 '''
-
 from operator import itemgetter
 
 import re
