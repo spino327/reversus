@@ -1,8 +1,6 @@
 package com.lat.android;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -32,19 +30,23 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CheckInActivity extends LATActivity implements LocationListener{
     /** Called when the activity is first created. */
 
-    double lat = 0, lon = 0;
+    double lat = -1, lon = -1;
     long timespan = 0;
     LocationManager locMgr;
     public static Context context;
     public ArrayList<String> places;
-    public ArrayAdapter aa;
+    public ArrayAdapter<String> aa;
     public ListView mainList;
     
     @Override
@@ -75,19 +77,20 @@ public class CheckInActivity extends LATActivity implements LocationListener{
             Log.e("My Debug Tag", "Location failed", e);
         }
     	
-    	TextView latText = (TextView) findViewById(R.id.textViewLat);
-    	TextView lonText = (TextView) findViewById(R.id.textViewLon);
-    	TextView timeText = (TextView) findViewById(R.id.textViewTime);
-    	if (lat != 0.0 && lon != 0.0){
-    		latText.setText("Lat: " + lat);
-    		lonText.setText("Long: " + lon);
-    		timeText.setText("Time: " + timespan);
+    	//TextView latText = (TextView) findViewById(R.id.textViewLat);
+    	//TextView lonText = (TextView) findViewById(R.id.textViewLon);
+    	//TextView timeText = (TextView) findViewById(R.id.textViewTime);
+    	if (lat != -1 && lon != -1){
+    	//	latText.setText("Lat: " + lat);
+    	//	lonText.setText("Long: " + lon);
+    	//	timeText.setText("Time: " + timespan);
     		
     		sendCheckIn();
     		
     	}
     	else{
-    		latText.setText("No Location Data Available");
+    		//latText.setText("No Location Data Available");
+    		Toast.makeText(context, "No Location Data is Available!", Toast.LENGTH_LONG);
     	}
     	
     }
@@ -125,6 +128,7 @@ public class CheckInActivity extends LATActivity implements LocationListener{
     		} catch (Exception e){
     			Log.e("My Debug Tag", responseBody);
     		}
+            finish();
 			return result;
     	}
     }
@@ -196,12 +200,6 @@ public class CheckInActivity extends LATActivity implements LocationListener{
 
         @Override
         protected void onProgressUpdate(String... values) {
-        	try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
             if (values.length == 1) {
                 String placeName = values[0];
                 places.add(placeName);
@@ -246,12 +244,13 @@ public class CheckInActivity extends LATActivity implements LocationListener{
 
     public void sendCheckIn(){
     	SharedPreferences prefs = this.getSharedPreferences("com.lat.android", MODE_PRIVATE);
-    	String url = prefs.getString("url", null);
+    	final String url = prefs.getString("url", null) + "/checkin?";
+    	/*
     	if (url == null){
     		Log.e("My Debug Tag", "No url set!");
     		return;
-    	}
-    	url += "/checkin?";
+    	}*/
+    	//url += "/checkin?";
 //    	if(!url.endsWith("?")){
 //            url += "?";
 //    	}
@@ -265,14 +264,53 @@ public class CheckInActivity extends LATActivity implements LocationListener{
     	params.add(new BasicNameValuePair("lat", String.valueOf(lat)));
         params.add(new BasicNameValuePair("lon", String.valueOf(lon)));
         params.add(new BasicNameValuePair("user", prefs.getString("user", "guest")));
-        params.add(new BasicNameValuePair("ts", String.valueOf(timespan)));
+        params.add(new BasicNameValuePair("ts", String.valueOf(System.currentTimeMillis())));
         
-        String paramString = URLEncodedUtils.format(params, null);
+        final String paramString = URLEncodedUtils.format(params, null);
         
         //locUploader.execute(url, paramString);
-        pdl.execute(url + paramString, findViewById(R.id.possiblePlacesList));
-        ListView list = (ListView) findViewById(R.id.possiblePlacesList);
+        pdl.execute(url + paramString + "&place=null", findViewById(R.id.possiblePlacesList));
         
+        //Toast checking = new Toast.makeText(context, "Checking for places near Lat=" + String.valueOf(lat) + " and Lon=" + String.valueOf(lon), Toast.LENGTH_LONG);
+        Toast.makeText(context, "Checking for places near Lat=" + String.valueOf(lat) + " and Lon=" + String.valueOf(lon), Toast.LENGTH_LONG).show();
+        
+        ListView list = (ListView) findViewById(R.id.possiblePlacesList);
+        //final RadioGroup healthGroup = (RadioGroup) findViewById(R.id.radioHealth);
+        //healthGroup.setVisibility(RadioGroup.VISIBLE);
+        final Spinner healthSpinner = (Spinner) findViewById(R.id.spinnerCheckInHealth);
+        final TextView txtHealth = (TextView) findViewById(R.id.txtHealthLbl);
+        healthSpinner.setVisibility(Spinner.VISIBLE);
+        txtHealth.setVisibility(TextView.VISIBLE);
+        
+        findViewById(R.id.btnCheckIn).setVisibility(Button.GONE);
+        
+        
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        	public void onItemClick(AdapterView<?> parent, View itemClicked, int position, long id){
+        		TextView textView = (TextView) itemClicked;
+        		String strText = textView.getText().toString();
+        		
+        		//String health = "";
+        		//int selected = healthGroup.getCheckedRadioButtonId();
+        		String selected = (String) healthSpinner.getSelectedItem();
+        		/*if (selected == R.id.radioHealthy)
+        			health = "healthy";
+        		else
+        			health = "unhealthy";*/
+        		
+        		String placeName = strText.replaceAll(" ", "_");
+        		placeName = placeName.replaceAll("&", "and");
+        		
+        		
+                LocationUploaderTask lut = new LocationUploaderTask();
+                lut.execute(url, paramString + "&place=" +placeName + "&health=" + selected);
+                Toast.makeText(context, "Checking in at " + strText, Toast.LENGTH_LONG).show();
+        	}
+        	
+        
+		});
+        
+
         /*
         list.setVisibility(list.GONE);
         list.setAdapter(new ArrayAdapter<String>(this, R.layout.menu_item, places));

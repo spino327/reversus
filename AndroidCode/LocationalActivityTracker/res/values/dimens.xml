@@ -6,4 +6,5 @@
 	<dimen name="screen_title_size">16pt</dimen>
 	<dimen name="menu_item_size">16pt</dimen>
 	<dimen name="reg_text_size">10pt</dimen>
+	<dimen name="table_text_size">3pt</dimen>
 </resources>

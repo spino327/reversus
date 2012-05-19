@@ -15,6 +15,7 @@
         <activity android:name="HistoryActivity"></activity><activity android:name="LATActivity"></activity>        
         <activity android:name="MainMenuActivity"></activity>
         <activity android:name="MyAlertsActivity"></activity>
+        <activity android:name="NewAlertActivity"></activity>
         <activity android:name="StatisticsActivity"></activity>
         <activity android:name="SettingsActivity"></activity>
         <activity android:name="RegistrationActivity"></activity>

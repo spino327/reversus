@@ -13,6 +13,59 @@
     
     <string name="my_alerts">My Alerts Screen</string>
     <string name="my_alerts_title">My Alerts</string>
+    <string name="createNewAlert">Create New Alert</string>
+    
+    <string name="new_alert_title">New Alert</string>
+    <string name="lblAlertType">Alert Type</string>
+    <string-array
+        name="alertTypeArray">
+        <item>In A Row</item>
+        <item>In Timespan</item>
+    </string-array>
+    <string name="alertTypePrompt">Select the Alert Type</string>
+    
+    <string name="lblNumTrans">Number of Transactions</string>
+    <string-array
+        name="numTransArray">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string name="numTransPrompt">Select the Number of Transactions until Trigger</string>
+    
+    <string name="lblHealthType">Health Type</string>
+    <string-array
+        name="healthArray">
+        <item>-5</item>
+        <item>-4</item>
+        <item>-3</item>
+        <item>-2</item>
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string name="healthPrompt">Select the Health Type</string>
+    
+    <string name="lblTimespan">Time Span</string>
+    <string-array
+        name="tsArray">
+        <item>1 Day</item>
+        <item>2 Days</item>
+        <item>3 Days</item>
+        <item>4 Days</item>
+        <item>5 Days</item>
+        <item>6 Days</item>
+        <item>1 Week</item>
+    </string-array>
+    <string name="tsPrompt">Select the Number of Days for Trigger</string>
+    
+    <string name="createAlert">Create the Alert!</string>
     
     <string name="statistics">Statistics Screen</string>
     <string name="statistics_title">Statistics</string>
@@ -28,5 +81,8 @@
     <string name="btnLogin">Login</string>
     <string name="btnRegister">Register</string>
     <string name="lblFullName">Full Name</string>
+    
+    <string name="radio_Healthy">Healthy</string>
+    <string name="radio_Unhealthy">Unhealthy</string>
 
 </resources>

@@ -110,7 +110,7 @@ public class ServerInterface {
 
 	        				//DBHandler db = new DBHandler("jdbc:mysql://localhost:3306/CPEG657", "root", "root");
 
-	        				dbHandler.addLocationEntry(user, data.get("lon"), data.get("lat"), data.get("ts"), possibles.get(0));
+	        				//dbHandler.addLocationEntry(user, data.get("lon"), data.get("lat"), data.get("ts"), possibles.get(0));
 
 	        				//1.1.5 Send data to phone for evaluation and selection
 

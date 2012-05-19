@@ -8,6 +8,12 @@
 package com.lat.android;
 
 public final class R {
+    public static final class array {
+        public static final int alertTypeArray=0x7f070000;
+        public static final int healthArray=0x7f070002;
+        public static final int numTransArray=0x7f070001;
+        public static final int tsArray=0x7f070003;
+    }
     public static final class attr {
     }
     public static final class color {
@@ -24,6 +30,7 @@ public final class R {
         public static final int menu_item_size=0x7f050004;
         public static final int reg_text_size=0x7f050005;
         public static final int screen_title_size=0x7f050003;
+        public static final int table_text_size=0x7f050006;
         public static final int version_size=0x7f050001;
         public static final int version_spacing=0x7f050002;
     }
@@ -31,47 +38,72 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int ListView_Menu=0x7f07000a;
-        public static final int btnLogin=0x7f070007;
-        public static final int editTextUsername=0x7f070006;
-        public static final int link_to_register=0x7f070008;
-        public static final int possiblePlacesList=0x7f070004;
-        public static final int textView1=0x7f070009;
-        public static final int textViewCIT=0x7f070000;
-        public static final int textViewLat=0x7f070001;
-        public static final int textViewLoginTitle=0x7f070005;
-        public static final int textViewLon=0x7f070002;
-        public static final int textViewTime=0x7f070003;
+        public static final int ListView_Menu=0x7f08000e;
+        public static final int alertScroll=0x7f080001;
+        public static final int alertTable=0x7f080002;
+        public static final int alertType=0x7f08000f;
+        public static final int btnCheckIn=0x7f080003;
+        public static final int btnCreateAlert=0x7f080013;
+        public static final int btnLogin=0x7f08000c;
+        public static final int editTextUsername=0x7f08000b;
+        public static final int historyScroll=0x7f080008;
+        public static final int historyTable=0x7f080009;
+        public static final int link_to_register=0x7f08000d;
+        public static final int possiblePlacesList=0x7f080006;
+        public static final int spinnerCheckInHealth=0x7f080005;
+        public static final int spinnerHealth=0x7f080011;
+        public static final int spinnerNumTrans=0x7f080010;
+        public static final int spinnerTimespan=0x7f080012;
+        public static final int textView1=0x7f080007;
+        public static final int textViewCIT=0x7f080000;
+        public static final int textViewLoginTitle=0x7f08000a;
+        public static final int txtHealthLbl=0x7f080004;
     }
     public static final class layout {
-        public static final int checkin=0x7f030000;
-        public static final int list_item=0x7f030001;
-        public static final int login=0x7f030002;
-        public static final int main=0x7f030003;
-        public static final int mainmenu=0x7f030004;
-        public static final int menu_item=0x7f030005;
-        public static final int registration=0x7f030006;
+        public static final int alerts=0x7f030000;
+        public static final int checkin=0x7f030001;
+        public static final int history=0x7f030002;
+        public static final int list_item=0x7f030003;
+        public static final int login=0x7f030004;
+        public static final int main=0x7f030005;
+        public static final int mainmenu=0x7f030006;
+        public static final int menu_item=0x7f030007;
+        public static final int new_alert=0x7f030008;
+        public static final int registration=0x7f030009;
     }
     public static final class string {
+        public static final int alertTypePrompt=0x7f06000c;
         public static final int app_name=0x7f060000;
-        public static final int btnLogin=0x7f060011;
-        public static final int btnRegister=0x7f060012;
+        public static final int btnLogin=0x7f06001c;
+        public static final int btnRegister=0x7f06001d;
         public static final int check_in=0x7f060003;
         public static final int check_in_title=0x7f060004;
+        public static final int createAlert=0x7f060013;
+        public static final int createNewAlert=0x7f060009;
+        public static final int healthPrompt=0x7f060010;
         public static final int history=0x7f060005;
         public static final int history_title=0x7f060006;
-        public static final int lblFullName=0x7f060013;
-        public static final int lblPassword=0x7f060010;
-        public static final int lblUser=0x7f06000f;
-        public static final int login=0x7f06000d;
-        public static final int login_title=0x7f06000e;
+        public static final int lblAlertType=0x7f06000b;
+        public static final int lblFullName=0x7f06001e;
+        public static final int lblHealthType=0x7f06000f;
+        public static final int lblNumTrans=0x7f06000d;
+        public static final int lblPassword=0x7f06001b;
+        public static final int lblTimespan=0x7f060011;
+        public static final int lblUser=0x7f06001a;
+        public static final int login=0x7f060018;
+        public static final int login_title=0x7f060019;
         public static final int main_menu=0x7f060001;
         public static final int main_menu_title=0x7f060002;
         public static final int my_alerts=0x7f060007;
         public static final int my_alerts_title=0x7f060008;
-        public static final int settings=0x7f06000b;
-        public static final int settings_title=0x7f06000c;
-        public static final int statistics=0x7f060009;
-        public static final int statistics_title=0x7f06000a;
+        public static final int new_alert_title=0x7f06000a;
+        public static final int numTransPrompt=0x7f06000e;
+        public static final int radio_Healthy=0x7f06001f;
+        public static final int radio_Unhealthy=0x7f060020;
+        public static final int settings=0x7f060016;
+        public static final int settings_title=0x7f060017;
+        public static final int statistics=0x7f060014;
+        public static final int statistics_title=0x7f060015;
+        public static final int tsPrompt=0x7f060012;
     }
 }

@@ -53,6 +53,6 @@ public class MainMenuActivity extends LATActivity {
 		});
         
         SharedPreferences prefs = this.getSharedPreferences("com.lat.android", Context.MODE_PRIVATE);
-        prefs.edit().putString("url", "http://192.168.2.104:8080/LATServlet").commit();
+        prefs.edit().putString("url", "http://128.4.195.125:8080/LATServlet").commit();
     }
 }

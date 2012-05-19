@@ -43,17 +43,26 @@ public class PossibilityDownloader extends HttpServlet {
 		
 		String user = request.getParameter("user");
 		if (dbHandler.isValidUser(user)){
-			LocationAnalyzer locAn = new LocationAnalyzer();
-			ArrayList<String> possibles = locAn.bestResult(request.getParameter("lat"), request.getParameter("lon"));
 			
-			response.getWriter().println("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-			response.getWriter().println("<possibilities>");
-			for (String p : possibles){
-				if (p.contains("&"))
-					p = p.replace("&", "and");
-				response.getWriter().println("<possible name=\"" + p + "\"/>");
+			
+			String place = request.getParameter("place");
+			if (place.equals("null")){
+				LocationAnalyzer locAn = new LocationAnalyzer();
+				ArrayList<String> possibles = locAn.bestResult(request.getParameter("lat"), request.getParameter("lon"));
+
+				response.getWriter().println("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+				response.getWriter().println("<possibilities>");
+				for (String p : possibles){
+					if (p.contains("&"))
+						p = p.replace("&", "and");
+					response.getWriter().println("<possible name=\"" + p + "\"/>");
+				}
+				response.getWriter().println("</possibilities>");
 			}
-			response.getWriter().println("</possibilities>");
+			else {
+				dbHandler.addLocationEntry(user, request.getParameter("lon"), request.getParameter("lat"), 
+						request.getParameter("ts"), place, request.getParameter("health"));
+			}
 		}
 		response.flushBuffer();
 	}

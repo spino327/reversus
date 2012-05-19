@@ -65,7 +65,7 @@ public class MobileGateway extends HttpServlet {
         				// higher probability given the USER "profile". Maybe we can use ideas from collaborative filtering, in order
         				// to figure out the place given that the user has a similar profile to other users.
 
-        				dbHandler.addLocationEntry(user, data.get("lon"), data.get("lat"), data.get("ts"), possibles.get(0));
+        				//dbHandler.addLocationEntry(user, data.get("lon"), data.get("lat"), data.get("ts"), possibles.get(0));
 
         				//1.1.5 Send data to phone for evaluation and selection
 

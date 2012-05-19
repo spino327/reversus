@@ -14,6 +14,7 @@
         android:textSize="@dimen/screen_title_size"/>
     
 	<Button
+	    android:id="@+id/btnCheckIn"
      	android:layout_height="wrap_content"
      	android:layout_width="wrap_content"
      	android:text="@string/check_in_title"
@@ -21,7 +22,7 @@
      	android:layout_gravity="center_horizontal"
      	/>
      
-	<TextView 
+	<!--  <TextView 
         android:id="@+id/textViewLat"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -29,9 +30,9 @@
         android:gravity="center"
         android:text=""
         android:textColor="@color/title_color"
-        android:textSize="@dimen/reg_text_size"/>
+        android:textSize="@dimen/reg_text_size"/>-->
 	
-	<TextView 
+	<!-- <TextView 
         android:id="@+id/textViewLon"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -39,9 +40,9 @@
         android:gravity="center"
         android:text=""
         android:textColor="@color/title_color"
-        android:textSize="@dimen/reg_text_size"/>
+        android:textSize="@dimen/reg_text_size"/>-->
     
-	<TextView 
+	<!--<TextView 
         android:id="@+id/textViewTime"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -49,11 +50,29 @@
         android:gravity="center"
         android:text=""
         android:textColor="@color/title_color"
-        android:textSize="@dimen/reg_text_size"/> 
+        android:textSize="@dimen/reg_text_size"/> -->
+        
+        	<!--  Health Type Label -->
+	<TextView android:layout_width="fill_parent"
+	    android:id="@+id/txtHealthLbl"
+	    android:visibility="invisible"
+		android:layout_height="wrap_content"
+		android:textSize="15dip"
+			android:textColor="#0b84aa"
+		android:text="@string/lblHealthType"/>
+         
+	<Spinner
+       	android:id="@+id/spinnerCheckInHealth"
+       	android:visibility="invisible"
+       	android:layout_width="fill_parent"
+       	android:layout_height="wrap_content"
+       	android:entries="@array/healthArray"
+       	android:prompt="@string/healthPrompt" />
         
 	<ListView 
     	android:id="@+id/possiblePlacesList"
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"/>
+
 
 </LinearLayout>
