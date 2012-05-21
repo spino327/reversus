@@ -16,10 +16,12 @@
     CLLocationManager *locationManager;
     IBOutlet MKMapView *worldView;
     IBOutlet UIActivityIndicatorView *activityIndicator;
-    IBOutlet UITextField *locationTitleField;
-    NSURLConnection *connection;
+    IBOutlet UITextField *server;
+    IBOutlet UITextField *user;
+    //NSURLConnection *connection;
 }
 - (void)findLocation;
 - (void)foundLocation:(CLLocation *)loc;
-- (IBAction)sendLocationToServer:(id)sender;
+- (IBAction)sendRequestURL:(id)sender;
+- (IBAction)backgroundTouch:(id)sender;
 @end
